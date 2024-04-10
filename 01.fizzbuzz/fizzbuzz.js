@@ -12,9 +12,6 @@ const fizzbuzz = (num) => {
     }
 };
 
-let num = 1;
-
-while (num <= 20) {
-    fizzbuzz(num);
-    num++;
+for (let i = 1; i <= 20; i++) {
+  fizzbuzz(i);
 }
