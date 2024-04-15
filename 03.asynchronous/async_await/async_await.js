@@ -4,7 +4,7 @@ import {
   insertData,
   getLastData,
   getAllData,
-} from "./async_await_methods.js";
+} from "../promise/promise_methods.js";
 
 const db = new sqlite3.Database(":memory:");
 const tableName = "books";

@@ -1,5 +1,9 @@
 import sqlite3 from "sqlite3";
-import { createTable, insertData, getAllData } from "./async_await_methods.js";
+import {
+  createTable,
+  insertData,
+  getAllData,
+} from "../promise/promise_methods.js";
 
 const db = new sqlite3.Database(":memory:");
 const tableName = "books";
