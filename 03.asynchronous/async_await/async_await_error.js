@@ -3,7 +3,8 @@ import {
   createTable,
   insertData,
   getAllData,
-} from "../promise/promise_methods.js";
+  // } from "../promise/promise_methods.js";
+} from "./async_await_methods.js";
 
 const db = new sqlite3.Database(":memory:");
 const tableName = "books";
@@ -11,20 +12,23 @@ const wrongName = "dvds";
 const data = "book1";
 
 async function causeError(db, tableName, wrongName, data) {
+  let result = await createTable(db, tableName);
+  console.log(result);
   try {
-    await createTable(db, tableName);
-    await insertData(db, wrongName, data);
+    result = await insertData(db, wrongName, data);
+    console.log(result);
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
   try {
-    await getAllData(db, wrongName);
+    result = await getAllData(db, wrongName);
+    console.log(result);
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   } finally {
     db.close();
-    console.log("終了します");
   }
+  console.log("終了します");
 }
 
 causeError(db, tableName, wrongName, data);
