@@ -3,8 +3,7 @@ import {
   createTable,
   insertData,
   getAllData,
-  // } from "../promise/promise_methods.js";
-} from "../promise/promise_methods.js";
+} from "../lib/asynchronous_functions.js";
 
 const db = new sqlite3.Database(":memory:");
 const tableName = "books";
