@@ -1,18 +1,10 @@
 #!/usr/bin/env node
 import { program } from "commander";
 
-const todayUtc = new Date();
+const today = new Date();
 program
-  .option(
-    "-m <value>",
-    "input month",
-    String(changeJstDate(todayUtc).getMonth() + 1),
-  )
-  .option(
-    "-y <value>",
-    "input year",
-    String(changeJstDate(todayUtc).getFullYear()),
-  );
+  .option("-m <value>", "input month", String(today.getMonth() + 1))
+  .option("-y <value>", "input year", String(today.getFullYear()));
 program.parse();
 const params = program.opts();
 const monthIndex = Number(params["m"]) - 1;
@@ -23,11 +15,11 @@ console.log(header);
 const WEEKDAYS = "日 月 火 水 木 金 土";
 console.log(WEEKDAYS);
 
-const startDay = changeJstDate(new Date(year, monthIndex, 1));
-const endDay = changeJstDate(new Date(year, monthIndex + 1, 0));
+const startDay = new Date(year, monthIndex, 1);
+const endDay = new Date(year, monthIndex + 1, 0);
 const days = [startDay];
 for (let i = 2; i < endDay.getDate(); i++) {
-  days.push(changeJstDate(new Date(year, monthIndex, i)));
+  days.push(new Date(year, monthIndex, i));
 }
 days.push(endDay);
 const formattedDays = days.map((date) => {
@@ -37,8 +29,3 @@ const formattedDays = days.map((date) => {
 const margin = Array.from({ length: startDay.getDay() }, () => "   ");
 const calender = margin.concat(formattedDays);
 console.log(calender.join(""));
-
-function changeJstDate(utcDate) {
-  const jstOffset = 9 * 60;
-  return new Date(utcDate.getTime() + jstOffset * 60000);
-}
