@@ -16,35 +16,24 @@ export function createTable(db, tableName) {
 
 export function insertData(db, tableName, data) {
   return new Promise((resolve, reject) => {
-    db.run(`INSERT INTO ${tableName} (title) VALUES(?)`, [`${data}`], (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
-
-export function getLastData(db, tableName) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT * FROM ${tableName} ORDER BY id DESC LIMIT 1`,
-      (err, row) => {
+    db.run(
+      `INSERT INTO ${tableName} (title) VALUES(?)`,
+      [`${data}`],
+      function (err) {
         if (err) {
           reject(err);
         } else {
-          console.log(`id: ${row.id}のレコードが追加されました。 `);
-          resolve();
+          let newRecordId = this.lastID;
+          resolve(newRecordId);
         }
       },
     );
   });
 }
 
-export function getAllData(db, tableName) {
+export function getAllData(db, tableName, column) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM ${tableName}`, (err, rows) => {
+    db.all(`SELECT ${column} FROM ${tableName}`, (err, rows) => {
       if (err) {
         reject(err);
       } else {
