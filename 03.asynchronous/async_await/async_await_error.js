@@ -4,31 +4,30 @@ import {
   insertData,
   getAllData,
   // } from "../promise/promise_methods.js";
-} from "./async_await_methods.js";
+  // } from "./async_await_methods.js";
+} from "../promise/promise_methods.js";
 
 const db = new sqlite3.Database(":memory:");
 const tableName = "books";
-const wrongName = "dvds";
 const data = "book1";
+const wrongColumn = "content";
 
-async function causeError(db, tableName, wrongName, data) {
-  let result = await createTable(db, tableName);
-  console.log(result);
+async function causeError(db, tableName, data, wrongColumn) {
+  await createTable(db, tableName);
   try {
-    result = await insertData(db, wrongName, data);
-    console.log(result);
+    let newRecordId = await insertData(db, data, wrongColumn);
+    console.log(newRecordId);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
   try {
-    result = await getAllData(db, wrongName);
-    console.log(result);
+    await getAllData(db, wrongColumn);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   } finally {
     db.close();
+    console.log("終了します");
   }
-  console.log("終了します");
 }
 
-causeError(db, tableName, wrongName, data);
+causeError(db, tableName, data, wrongColumn);
