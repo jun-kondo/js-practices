@@ -12,7 +12,7 @@ db.run(CREATE_TABLE, () => {
     console.log(`id: ${this.lastID}のレコードが追加されました。 `);
     db.each(GET_ALL_RECORDS, (_, row) => {
       console.log(row);
+      db.close();
     });
   });
 });
-db.close();
