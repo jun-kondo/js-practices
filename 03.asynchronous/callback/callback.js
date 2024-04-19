@@ -2,15 +2,15 @@ import sqlite3 from "sqlite3";
 
 const db = new sqlite3.Database(":memory:");
 
-const CREATE_TABLE =
+const TABLE_CREATION_SQL =
   "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
-const INSERT_RECORD = "INSERT INTO books (title) VALUES(?)";
-const GET_ALL_RECORDS = "SELECT * FROM books";
+const RECORD_INSERTION_SQL = "INSERT INTO books (title) VALUES(?)";
+const ALL_RECORDS_ACQUISITION_SQL = "SELECT * FROM books";
 
-db.run(CREATE_TABLE, () => {
-  db.run(INSERT_RECORD, ["book1"], function () {
+db.run(TABLE_CREATION_SQL, () => {
+  db.run(RECORD_INSERTION_SQL, ["book1"], function () {
     console.log(`id: ${this.lastID}のレコードが追加されました。 `);
-    db.each(GET_ALL_RECORDS, (_, row) => {
+    db.each(ALL_RECORDS_ACQUISITION_SQL, (_, row) => {
       console.log(row);
       db.close();
     });
