@@ -1,4 +1,4 @@
-import { db, runAsync, eachAsync } from "../lib/asynchronous_functions.js";
+import { db, runAsync, allAsync } from "../lib/asynchronous_functions.js";
 
 const CREATE_TABLE_QUERY =
   "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
@@ -10,12 +10,10 @@ runAsync(CREATE_TABLE_QUERY)
   .then(() => runAsync(INSERT_RECORD_QUERY, ["book1"]))
   .then((newRecordId) => {
     console.log(`id: ${newRecordId}のレコードが追加されました。`);
-    return eachAsync(GET_ALL_RECORDS_QUERY);
+    return allAsync(GET_ALL_RECORDS_QUERY);
   })
-  .then((row) => {
-    console.log(row);
+  .then((rows) => {
+    console.log(rows);
     return runAsync(DROP_TABLE_QUERY);
   })
-  .then(() => {
-    db.close();
-  });
+  .then(() => db.close());

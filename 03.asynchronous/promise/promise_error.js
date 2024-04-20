@@ -1,4 +1,4 @@
-import { db, runAsync, eachAsync } from "../lib/asynchronous_functions.js";
+import { db, runAsync, allAsync } from "../lib/asynchronous_functions.js";
 
 const CREATE_TABLE_QUERY =
   "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
@@ -20,7 +20,7 @@ runAsync(CREATE_TABLE_QUERY)
       throw err;
     }
   })
-  .then(() => eachAsync(INVALID_GET_ALL_RECORD_QUERY))
+  .then(() => allAsync(INVALID_GET_ALL_RECORD_QUERY))
   .catch((err) => {
     if (
       err &&

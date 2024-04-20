@@ -11,8 +11,8 @@ const DROP_TABLE_QUERY = "DROP TABLE books";
 db.run(CREATE_TABLE_QUERY, () => {
   db.run(INSERT_RECORD_QUERY, ["book1"], function () {
     console.log(`id: ${this.lastID}のレコードが追加されました。 `);
-    db.each(GET_ALL_RECORDS_QUERY, (_, row) => {
-      console.log(row);
+    db.all(GET_ALL_RECORDS_QUERY, (_, rows) => {
+      console.log(rows);
       db.run(DROP_TABLE_QUERY, () => {
         db.close();
       });
