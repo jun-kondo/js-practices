@@ -6,7 +6,7 @@ import {
   DROP_TABLE_QUERY,
   runAsync,
   allAsync,
-} from "../lib/asynchronous_functions.js";
+} from "../lib/sqlite_utils.js";
 
 await runAsync(CREATE_TABLE_QUERY);
 await runAsync(INSERT_RECORD_QUERY, ["book1"]);
