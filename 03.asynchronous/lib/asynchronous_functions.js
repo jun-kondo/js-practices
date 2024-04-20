@@ -1,46 +1,32 @@
-export function createTable(db, tableName) {
-  return new Promise((resolve, reject) => {
-    db.run(
-      `CREATE TABLE ${tableName} (id integer primary key autoincrement, title text not null unique)`,
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          console.log(`テーブル:${tableName}が作成されました`);
-          resolve();
-        }
-      },
-    );
-  });
-}
+import sqlite3 from "sqlite3";
+export const db = new sqlite3.Database(":memory:");
+export const CREATE_TABLE_QUERY =
+  "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
+export const INSERT_RECORD_QUERY = "INSERT INTO books (title) VALUES (?)";
+export const GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
+export const INVALID_GET_ALL_RECORD_QUERY = "SELECT content FROM books";
+export const DROP_TABLE_QUERY = "DROP TABLE books";
 
-export function insertData(db, tableName, data) {
+export function runAsync(sql, params) {
   return new Promise((resolve, reject) => {
-    db.run(
-      `INSERT INTO ${tableName} (title) VALUES(?)`,
-      [`${data}`],
-      function (err) {
-        if (err) {
-          reject(err);
-        } else {
-          let newRecordId = this.lastID;
-          resolve(newRecordId);
-        }
-      },
-    );
-  });
-}
-
-export function getAllData(db, tableName, column) {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT ${column} FROM ${tableName}`, (err, rows) => {
+    db.run(sql, params, function (err) {
       if (err) {
         reject(err);
       } else {
-        for (let row of rows) {
-          console.log(row);
-        }
-        resolve();
+        const newRecordId = this.lastID;
+        resolve(newRecordId);
+      }
+    });
+  });
+}
+
+export function allAsync(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
       }
     });
   });
