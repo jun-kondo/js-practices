@@ -4,14 +4,14 @@ import {
   INSERT_RECORD_QUERY,
   INVALID_GET_ALL_RECORD_QUERY,
   DROP_TABLE_QUERY,
-  runAsync,
-  allAsync,
+  executeRunSqlAsync,
+  executeAllSqlAsync,
 } from "../lib/sqlite_utils.js";
 
-await runAsync(CREATE_TABLE_QUERY);
-await runAsync(INSERT_RECORD_QUERY, ["book1"]);
+await executeRunSqlAsync(CREATE_TABLE_QUERY);
+await executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]);
 try {
-  await runAsync(INSERT_RECORD_QUERY, ["book1"]);
+  await executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]);
 } catch (err) {
   if (
     err.code === "SQLITE_CONSTRAINT" &&
@@ -23,7 +23,7 @@ try {
   }
 }
 try {
-  await allAsync(INVALID_GET_ALL_RECORD_QUERY);
+  await executeAllSqlAsync(INVALID_GET_ALL_RECORD_QUERY);
 } catch (err) {
   if (err.code === "SQLITE_ERROR" && err.message.includes("no such column")) {
     console.error(err.message);
@@ -31,5 +31,5 @@ try {
     throw err;
   }
 }
-await runAsync(DROP_TABLE_QUERY);
+await executeRunSqlAsync(DROP_TABLE_QUERY);
 db.close();

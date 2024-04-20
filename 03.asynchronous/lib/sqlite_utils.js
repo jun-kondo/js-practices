@@ -7,7 +7,7 @@ export const GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
 export const INVALID_GET_ALL_RECORD_QUERY = "SELECT content FROM books";
 export const DROP_TABLE_QUERY = "DROP TABLE books";
 
-export function runAsync(sql, params) {
+export function executeRunSqlAsync(sql, params) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) {
@@ -20,7 +20,7 @@ export function runAsync(sql, params) {
   });
 }
 
-export function allAsync(sql, params) {
+export function executeAllSqlAsync(sql, params) {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) {

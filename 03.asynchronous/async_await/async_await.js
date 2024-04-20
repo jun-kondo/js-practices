@@ -4,14 +4,14 @@ import {
   INSERT_RECORD_QUERY,
   GET_ALL_RECORDS_QUERY,
   DROP_TABLE_QUERY,
-  runAsync,
-  allAsync,
+  executeRunSqlAsync,
+  executeAllSqlAsync,
 } from "../lib/sqlite_utils.js";
 
-await runAsync(CREATE_TABLE_QUERY);
-const newRecordId = await runAsync(INSERT_RECORD_QUERY, ["book1"]);
+await executeRunSqlAsync(CREATE_TABLE_QUERY);
+const newRecordId = await executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]);
 console.log(`id: ${newRecordId}のレコードが追加されました。`);
-const rows = await allAsync(GET_ALL_RECORDS_QUERY);
+const rows = await executeAllSqlAsync(GET_ALL_RECORDS_QUERY);
 console.log(rows);
-await runAsync(DROP_TABLE_QUERY);
+await executeRunSqlAsync(DROP_TABLE_QUERY);
 db.close();
