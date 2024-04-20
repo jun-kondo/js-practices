@@ -1,24 +1,21 @@
-import sqlite3 from "sqlite3";
-import {
-  createTable,
-  insertData,
-  getAllData,
-} from "../lib/asynchronous_functions.js";
+import { db, runAsync, eachAsync } from "../lib/asynchronous_functions.js";
 
-const db = new sqlite3.Database(":memory:");
-const tableName = "books";
-const data = "book1";
-const column = "*";
-createTable(db, tableName)
-  .then(() => {
-    return insertData(db, tableName, data);
-  })
+const CREATE_TABLE_QUERY =
+  "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
+const INSERT_RECORD_QUERY = "INSERT INTO books (title) VALUES (?)";
+const GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
+const DROP_TABLE_QUERY = "DROP TABLE books";
+
+runAsync(CREATE_TABLE_QUERY)
+  .then(() => runAsync(INSERT_RECORD_QUERY, ["book1"]))
   .then((newRecordId) => {
     console.log(`id: ${newRecordId}のレコードが追加されました。`);
-    return getAllData(db, tableName, column);
-    // return getLastData(db, tableName);
+    return eachAsync(GET_ALL_RECORDS_QUERY);
   })
-  .finally(() => {
+  .then((row) => {
+    console.log(row);
+    return runAsync(DROP_TABLE_QUERY);
+  })
+  .then(() => {
     db.close();
-    console.log("終了します");
   });
