@@ -1,12 +1,10 @@
-import sqlite3 from "sqlite3";
-
-const db = new sqlite3.Database(":memory:");
-
-const CREATE_TABLE_QUERY =
-  "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
-const INSERT_RECORD_QUERY = "INSERT INTO books (title) VALUES (?)";
-const GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
-const DROP_TABLE_QUERY = "DROP TABLE books";
+import {
+  db,
+  CREATE_TABLE_QUERY,
+  INSERT_RECORD_QUERY,
+  GET_ALL_RECORDS_QUERY,
+  DROP_TABLE_QUERY,
+} from "../lib/sqlite_utils.js";
 
 db.run(CREATE_TABLE_QUERY, () => {
   db.run(INSERT_RECORD_QUERY, ["book1"], function () {
