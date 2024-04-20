@@ -1,11 +1,11 @@
 import {
-  db,
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
   BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
   BOOKS_TABLE_DROP_QUERY,
   executeRunSqlAsync,
   executeAllSqlAsync,
+  closeDbAsync,
 } from "../lib/sqlite_utils.js";
 
 executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
@@ -30,4 +30,4 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
     }
   })
   .then(() => executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY))
-  .finally(() => db.close());
+  .finally(() => closeDbAsync());

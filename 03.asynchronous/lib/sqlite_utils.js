@@ -31,3 +31,9 @@ export function executeAllSqlAsync(sql, params) {
     });
   });
 }
+
+export function closeDbAsync() {
+  return new Promise((resolve) => {
+    db.close(() => resolve());
+  });
+}
