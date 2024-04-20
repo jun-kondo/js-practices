@@ -16,15 +16,20 @@ async function causeError(db, tableName, data, wrongColumn) {
     let newRecordId = await insertData(db, data, wrongColumn);
     console.log(newRecordId);
   } catch (err) {
-    console.log(err.message);
+    if (err && err.code === "SQLITE_ERROR") {
+      console.error(err.message);
+    } else {
+      throw err;
+    }
   }
   try {
     await getAllData(db, wrongColumn);
   } catch (err) {
-    console.log(err.message);
-  } finally {
-    db.close();
-    console.log("終了します");
+    if (err && err.code === "SQLITE_ERROR") {
+      console.error(err.message);
+    } else {
+      throw err;
+    }
   }
 }
 
