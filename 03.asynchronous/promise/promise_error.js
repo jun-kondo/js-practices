@@ -1,16 +1,16 @@
 import {
   db,
-  CREATE_TABLE_QUERY,
-  INSERT_RECORD_QUERY,
-  INVALID_GET_ALL_RECORD_QUERY,
-  DROP_TABLE_QUERY,
+  BOOKS_TABLE_CREATE_QUERY,
+  BOOKS_RECORD_INSERT_QUERY,
+  BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
+  BOOKS_TABLE_DROP_QUERY,
   executeRunSqlAsync,
   executeAllSqlAsync,
 } from "../lib/sqlite_utils.js";
 
-executeRunSqlAsync(CREATE_TABLE_QUERY)
-  .then(() => executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]))
-  .then(() => executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]))
+executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
+  .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
+  .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
   .catch((err) => {
     if (
       err.code === "SQLITE_CONSTRAINT" &&
@@ -21,7 +21,7 @@ executeRunSqlAsync(CREATE_TABLE_QUERY)
       throw err;
     }
   })
-  .then(() => executeAllSqlAsync(INVALID_GET_ALL_RECORD_QUERY))
+  .then(() => executeAllSqlAsync(BOOKS_INVALID_GET_ALL_RECORDS_QUERY))
   .catch((err) => {
     if (err.code === "SQLITE_ERROR" && err.message.includes("no such column")) {
       console.error(err.message);
@@ -29,5 +29,5 @@ executeRunSqlAsync(CREATE_TABLE_QUERY)
       throw err;
     }
   })
-  .then(() => executeRunSqlAsync(DROP_TABLE_QUERY))
+  .then(() => executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY))
   .finally(() => db.close());

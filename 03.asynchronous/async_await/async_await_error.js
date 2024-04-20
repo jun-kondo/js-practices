@@ -1,17 +1,17 @@
 import {
   db,
-  CREATE_TABLE_QUERY,
-  INSERT_RECORD_QUERY,
-  INVALID_GET_ALL_RECORD_QUERY,
-  DROP_TABLE_QUERY,
+  BOOKS_TABLE_CREATE_QUERY,
+  BOOKS_RECORD_INSERT_QUERY,
+  BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
+  BOOKS_TABLE_DROP_QUERY,
   executeRunSqlAsync,
   executeAllSqlAsync,
 } from "../lib/sqlite_utils.js";
 
-await executeRunSqlAsync(CREATE_TABLE_QUERY);
-await executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]);
+await executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY);
+await executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]);
 try {
-  await executeRunSqlAsync(INSERT_RECORD_QUERY, ["book1"]);
+  await executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]);
 } catch (err) {
   if (
     err.code === "SQLITE_CONSTRAINT" &&
@@ -23,7 +23,7 @@ try {
   }
 }
 try {
-  await executeAllSqlAsync(INVALID_GET_ALL_RECORD_QUERY);
+  await executeAllSqlAsync(BOOKS_INVALID_GET_ALL_RECORDS_QUERY);
 } catch (err) {
   if (err.code === "SQLITE_ERROR" && err.message.includes("no such column")) {
     console.error(err.message);
@@ -31,5 +31,5 @@ try {
     throw err;
   }
 }
-await executeRunSqlAsync(DROP_TABLE_QUERY);
+await executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY);
 db.close();
