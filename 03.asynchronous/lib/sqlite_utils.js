@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 export const db = new sqlite3.Database(":memory:");
 export const CREATE_TABLE_QUERY =
-  "CREATE TABLE books (id integer primary key autoincrement, title text not null unique)";
+  "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)";
 export const INSERT_RECORD_QUERY = "INSERT INTO books (title) VALUES (?)";
 export const GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
 export const INVALID_GET_ALL_RECORD_QUERY = "SELECT content FROM books";
