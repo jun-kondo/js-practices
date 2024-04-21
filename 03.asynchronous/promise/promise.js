@@ -1,4 +1,5 @@
 import {
+  db,
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
   BOOKS_GET_ALL_RECORDS_QUERY,
@@ -8,14 +9,14 @@ import {
   closeDbAsync,
 } from "../lib/sqlite_utils.js";
 
-executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
-  .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
+executeRunSqlAsync(db, BOOKS_TABLE_CREATE_QUERY)
+  .then(() => executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, ["book1"]))
   .then((result) => {
     console.log(`id: ${result.lastID}のレコードが追加されました。`);
-    return executeAllSqlAsync(BOOKS_GET_ALL_RECORDS_QUERY);
+    return executeAllSqlAsync(db, BOOKS_GET_ALL_RECORDS_QUERY);
   })
   .then((rows) => {
     console.log(rows);
-    return executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY);
+    return executeRunSqlAsync(db, BOOKS_TABLE_DROP_QUERY);
   })
-  .then(() => closeDbAsync());
+  .then(() => closeDbAsync(db));

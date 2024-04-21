@@ -1,4 +1,5 @@
 import {
+  db,
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
   BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
@@ -8,10 +9,10 @@ import {
   closeDbAsync,
 } from "../lib/sqlite_utils.js";
 
-await executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY);
-await executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]);
+await executeRunSqlAsync(db, BOOKS_TABLE_CREATE_QUERY);
+await executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, ["book1"]);
 try {
-  await executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]);
+  await executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, ["book1"]);
 } catch (err) {
   if (
     err &&
@@ -24,7 +25,7 @@ try {
   }
 }
 try {
-  await executeAllSqlAsync(BOOKS_INVALID_GET_ALL_RECORDS_QUERY);
+  await executeAllSqlAsync(db, BOOKS_INVALID_GET_ALL_RECORDS_QUERY);
 } catch (err) {
   if (
     err &&
@@ -36,5 +37,5 @@ try {
     throw err;
   }
 }
-await executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY);
-await closeDbAsync();
+await executeRunSqlAsync(db, BOOKS_TABLE_DROP_QUERY);
+await closeDbAsync(db);

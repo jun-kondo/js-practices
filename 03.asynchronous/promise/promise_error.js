@@ -1,4 +1,5 @@
 import {
+  db,
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
   BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
@@ -8,9 +9,9 @@ import {
   closeDbAsync,
 } from "../lib/sqlite_utils.js";
 
-executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
-  .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
-  .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
+executeRunSqlAsync(db, BOOKS_TABLE_CREATE_QUERY)
+  .then(() => executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, ["book1"]))
+  .then(() => executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, ["book1"]))
   .catch((err) => {
     if (
       err &&
@@ -22,7 +23,7 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
       throw err;
     }
   })
-  .then(() => executeAllSqlAsync(BOOKS_INVALID_GET_ALL_RECORDS_QUERY))
+  .then(() => executeAllSqlAsync(db, BOOKS_INVALID_GET_ALL_RECORDS_QUERY))
   .catch((err) => {
     if (
       err &&
@@ -34,5 +35,5 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
       throw err;
     }
   })
-  .then(() => executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY))
-  .then(() => closeDbAsync());
+  .then(() => executeRunSqlAsync(db, BOOKS_TABLE_DROP_QUERY))
+  .then(() => closeDbAsync(db));

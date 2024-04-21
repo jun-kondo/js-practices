@@ -8,7 +8,7 @@ export const BOOKS_GET_ALL_RECORDS_QUERY = "SELECT * FROM books";
 export const BOOKS_INVALID_GET_ALL_RECORDS_QUERY = "SELECT content FROM books";
 export const BOOKS_TABLE_DROP_QUERY = "DROP TABLE books";
 
-export function executeRunSqlAsync(sql, params) {
+export function executeRunSqlAsync(db, sql, params) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) {
@@ -20,7 +20,7 @@ export function executeRunSqlAsync(sql, params) {
   });
 }
 
-export function executeAllSqlAsync(sql, params) {
+export function executeAllSqlAsync(db, sql, params) {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) {
@@ -32,7 +32,7 @@ export function executeAllSqlAsync(sql, params) {
   });
 }
 
-export function closeDbAsync() {
+export function closeDbAsync(db) {
   return new Promise((resolve) => {
     db.close(() => resolve());
   });
