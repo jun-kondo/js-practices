@@ -13,6 +13,7 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
   .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
   .catch((err) => {
     if (
+      err &&
       err.code === "SQLITE_CONSTRAINT" &&
       err.message.includes("UNIQUE constraint failed")
     ) {
@@ -23,7 +24,11 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
   })
   .then(() => executeAllSqlAsync(BOOKS_INVALID_GET_ALL_RECORDS_QUERY))
   .catch((err) => {
-    if (err.code === "SQLITE_ERROR" && err.message.includes("no such column")) {
+    if (
+      err &&
+      err.code === "SQLITE_ERROR" &&
+      err.message.includes("no such column")
+    ) {
       console.error(err.message);
     } else {
       throw err;
