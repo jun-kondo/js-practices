@@ -10,8 +10,8 @@ import {
 
 executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
   .then(() => executeRunSqlAsync(BOOKS_RECORD_INSERT_QUERY, ["book1"]))
-  .then((newRecordId) => {
-    console.log(`id: ${newRecordId}のレコードが追加されました。`);
+  .then((result) => {
+    console.log(`id: ${result.lastID}のレコードが追加されました。`);
     return executeAllSqlAsync(BOOKS_GET_ALL_RECORDS_QUERY);
   })
   .then((rows) => {

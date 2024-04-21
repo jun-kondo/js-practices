@@ -14,8 +14,7 @@ export function executeRunSqlAsync(sql, params) {
       if (err) {
         reject(err);
       } else {
-        const newRecordId = this.lastID;
-        resolve(newRecordId);
+        resolve(this);
       }
     });
   });
