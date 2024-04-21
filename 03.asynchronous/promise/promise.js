@@ -18,4 +18,4 @@ executeRunSqlAsync(BOOKS_TABLE_CREATE_QUERY)
     console.log(rows);
     return executeRunSqlAsync(BOOKS_TABLE_DROP_QUERY);
   })
-  .finally(() => closeDbAsync());
+  .then(() => closeDbAsync());
