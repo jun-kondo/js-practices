@@ -27,7 +27,13 @@ export function executeAllSqlAsync(db, sql, params) {
 }
 
 export function closeDbAsync(db) {
-  return new Promise((resolve) => {
-    db.close(() => resolve());
+  return new Promise((resolve, reject) => {
+    db.close((err) => {
+      if (err) {
+        reject();
+      } else {
+        resolve();
+      }
+    });
   });
 }
