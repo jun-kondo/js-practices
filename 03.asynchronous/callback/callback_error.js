@@ -1,10 +1,11 @@
+import { db } from "../lib/sqlite_utils.js";
+
 import {
-  db,
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
   BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
   BOOKS_TABLE_DROP_QUERY,
-} from "../lib/sqlite_utils.js";
+} from "../lib/shared_query_constants.js";
 
 db.run(BOOKS_TABLE_CREATE_QUERY, () => {
   db.run(BOOKS_RECORD_INSERT_QUERY, ["book1"], () => {
