@@ -1,4 +1,5 @@
 import sqlite3 from "sqlite3";
+
 export const db = new sqlite3.Database(":memory:");
 export const BOOKS_TABLE_CREATE_QUERY =
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)";
