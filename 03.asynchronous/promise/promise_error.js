@@ -8,7 +8,7 @@ import {
 import {
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
-  BOOKS_INVALID_GET_ALL_RECORDS_QUERY,
+  BOOKS_ALL_RECORDS_GET_INVALID_QUERY,
   BOOKS_TABLE_DROP_QUERY,
 } from "../lib/shared_query_constants.js";
 
@@ -26,7 +26,7 @@ executeRunSqlAsync(db, BOOKS_TABLE_CREATE_QUERY)
       throw err;
     }
   })
-  .then(() => executeAllSqlAsync(db, BOOKS_INVALID_GET_ALL_RECORDS_QUERY))
+  .then(() => executeAllSqlAsync(db, BOOKS_ALL_RECORDS_GET_INVALID_QUERY))
   .catch((err) => {
     if (
       err &&

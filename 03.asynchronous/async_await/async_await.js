@@ -8,7 +8,7 @@ import {
 import {
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
-  BOOKS_GET_ALL_RECORDS_QUERY,
+  BOOKS_ALL_RECORDS_GET_QUERY,
   BOOKS_TABLE_DROP_QUERY,
 } from "../lib/shared_query_constants.js";
 
@@ -17,7 +17,7 @@ const result = await executeRunSqlAsync(db, BOOKS_RECORD_INSERT_QUERY, [
   "book1",
 ]);
 console.log(`id: ${result.lastID}のレコードが追加されました。`);
-const rows = await executeAllSqlAsync(db, BOOKS_GET_ALL_RECORDS_QUERY);
+const rows = await executeAllSqlAsync(db, BOOKS_ALL_RECORDS_GET_QUERY);
 console.log(rows);
 await executeRunSqlAsync(db, BOOKS_TABLE_DROP_QUERY);
 await closeDbAsync(db);
