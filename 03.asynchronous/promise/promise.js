@@ -4,7 +4,6 @@ import {
   executeAllSqlAsync,
   closeDbAsync,
 } from "../lib/sqlite_utils.js";
-
 import {
   BOOKS_TABLE_CREATE_QUERY,
   BOOKS_RECORD_INSERT_QUERY,
