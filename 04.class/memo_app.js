@@ -7,11 +7,11 @@ import { DbManager } from "./db_manager.js";
 export class MemoApp {
   #commandParser;
   #dbManager;
-  #memoService;
+  #memoCrud;
   constructor() {
     this.#commandParser = new CommandParser();
     this.#dbManager = new DbManager("memo_app.db");
-    this.#memoService = new MemoCrud(this.#dbManager);
+    this.#memoCrud = new MemoCrud(this.#dbManager);
   }
 
   async execute() {
@@ -28,14 +28,14 @@ export class MemoApp {
   async #run() {
     const options = this.#commandParser.parseOptions();
     if (options.list) {
-      await this.#memoService.listMemos();
+      await this.#memoCrud.listMemos();
     } else if (options.read) {
-      await this.#memoService.readMemo();
+      await this.#memoCrud.readMemo();
     } else if (options.delete) {
-      await this.#memoService.deleteMemo();
+      await this.#memoCrud.deleteMemo();
     } else {
       const inputText = await this.#handleInput();
-      await this.#memoService.createMemo(new Memo(inputText));
+      await this.#memoCrud.createMemo(new Memo(inputText));
     }
   }
 
