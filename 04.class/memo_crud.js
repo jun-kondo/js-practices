@@ -2,7 +2,7 @@ import pkg from "enquirer";
 
 const { Select } = pkg;
 
-export class MemoService {
+export class MemoCrud {
   #dbManager;
   constructor(dbManager) {
     this.#dbManager = dbManager;

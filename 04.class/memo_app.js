@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { CommandParser } from "./command_parser.js";
 import { Memo } from "./memo.js";
-import { MemoService } from "./memo_service.js";
+import { MemoCrud } from "./memo_crud.js";
 import { DbManager } from "./db_manager.js";
 
 export class MemoApp {
@@ -11,7 +11,7 @@ export class MemoApp {
   constructor() {
     this.#commandParser = new CommandParser();
     this.#dbManager = new DbManager("memo_app.db");
-    this.#memoService = new MemoService(this.#dbManager);
+    this.#memoService = new MemoCrud(this.#dbManager);
   }
 
   async execute() {
