@@ -71,7 +71,7 @@ export class DbManager {
           if (err) {
             reject(err);
           } else {
-            resolve();
+            resolve("New memo has been registered.");
           }
         },
       );

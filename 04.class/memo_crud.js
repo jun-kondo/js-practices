@@ -9,7 +9,12 @@ export class MemoCrud {
   }
 
   async createMemo(memo) {
-    await this.#dbManager.insertMemo(memo);
+    try {
+      const result = await this.#dbManager.insertMemo(memo);
+      console.log(result);
+    } catch (error) {
+      console.error("Error registering new memo: ", error);
+    }
   }
 
   async listMemos() {
