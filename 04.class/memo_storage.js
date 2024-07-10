@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-export class DbManager {
+export class MemoStorage {
   #db;
   constructor(dbPath) {
     this.#db = new sqlite3.Database(dbPath);

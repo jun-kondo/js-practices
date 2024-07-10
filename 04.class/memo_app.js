@@ -2,7 +2,7 @@
 import { CommandOption } from "./command_option.js";
 import { Memo } from "./memo.js";
 import { MemoCrud } from "./memo_crud.js";
-import { DbManager } from "./db_manager.js";
+import { MemoStorage } from "./memo_storage.js";
 
 export class MemoApp {
   #commandOption;
@@ -10,7 +10,7 @@ export class MemoApp {
   #memoCrud;
   constructor() {
     this.#commandOption = new CommandOption();
-    this.#dbManager = new DbManager("memo_app.db");
+    this.#dbManager = new MemoStorage("memo_app.db");
     this.#memoCrud = new MemoCrud(this.#dbManager);
   }
 
