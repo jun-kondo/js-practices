@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-import { CommandParser } from "./command_parser.js";
+import { CommandOption } from "./command_option.js";
 import { Memo } from "./memo.js";
 import { MemoCrud } from "./memo_crud.js";
 import { DbManager } from "./db_manager.js";
 
 export class MemoApp {
-  #commandParser;
+  #commandOption;
   #dbManager;
   #memoCrud;
   constructor() {
-    this.#commandParser = new CommandParser();
+    this.#commandOption = new CommandOption();
     this.#dbManager = new DbManager("memo_app.db");
     this.#memoCrud = new MemoCrud(this.#dbManager);
   }
@@ -26,7 +26,7 @@ export class MemoApp {
   }
 
   async #run() {
-    const options = this.#commandParser.parseOptions();
+    const options = this.#commandOption.parse();
     if (options.list) {
       await this.#memoCrud.listMemos();
     } else if (options.read) {

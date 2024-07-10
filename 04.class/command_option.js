@@ -1,6 +1,6 @@
 import { Command } from "commander";
 
-export class CommandParser {
+export class CommandOption {
   #options;
   constructor() {
     const program = new Command();
@@ -12,7 +12,7 @@ export class CommandParser {
     this.#options = program.opts();
   }
 
-  parseOptions() {
+  parse() {
     return this.#options;
   }
 }
