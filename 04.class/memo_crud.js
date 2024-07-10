@@ -19,7 +19,7 @@ export class MemoCrud {
 
   async listMemos() {
     try {
-      const rows = await this.#dbManager.getAllTitles();
+      const rows = await this.#dbManager.getAllMemos();
       if (rows.length === 0) {
         console.log("There are no registered memos.");
       } else {
@@ -88,7 +88,7 @@ export class MemoCrud {
 
   async #getMemoChoices() {
     try {
-      const rows = await this.#dbManager.getAllMemoIdsAndTitles();
+      const rows = await this.#dbManager.getAllMemos();
       return rows.map((row) => ({
         name: row.title,
         value: row.id,

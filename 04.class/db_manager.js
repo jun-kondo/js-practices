@@ -21,21 +21,9 @@ export class DbManager {
     });
   }
 
-  getAllTitles() {
+  getAllMemos() {
     return new Promise((resolve, reject) => {
-      this.#db.all("SELECT title FROM memos", (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  }
-
-  getAllMemoIdsAndTitles() {
-    return new Promise((resolve, reject) => {
-      this.#db.all("SELECT id, title FROM memos", (err, rows) => {
+      this.#db.all("SELECT * FROM memos ORDER BY id", (err, rows) => {
         if (err) {
           reject(err);
         } else {
