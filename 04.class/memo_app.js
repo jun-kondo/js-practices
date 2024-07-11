@@ -9,7 +9,6 @@ const { Select } = pkg;
 export class MemoApp {
   #commandOption;
   #memoStorage;
-  // #memoCrud;
   constructor() {
     this.#commandOption = new CommandOption();
     this.#memoStorage = new MemoStorage("memo_app.db");
