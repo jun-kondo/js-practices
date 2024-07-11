@@ -58,6 +58,9 @@ export class MemoApp {
 
   async #readMemo() {
     const choices = await this.#getMemoChoices();
+    if (choices.length === 0) {
+      return "There are no registered memos.";
+    }
     const message = "Choose a memo you want to read:";
     const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
@@ -68,6 +71,9 @@ export class MemoApp {
 
   async #deleteMemo() {
     const choices = await this.#getMemoChoices();
+    if (choices.length === 0) {
+      return "There are no registered memos.";
+    }
     const message = "Choose a memo you want to delete:";
     const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
@@ -85,10 +91,6 @@ export class MemoApp {
   }
 
   async #selectMemo(choices, message) {
-    if (choices.length === 0) {
-      console.log("There are no registered memos.");
-      return; // undefined
-    }
     const prompt = new Select({
       type: "select",
       name: "title",
