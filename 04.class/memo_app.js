@@ -32,6 +32,9 @@ export class MemoApp {
 
   async #run() {
     const options = this.#commandOption.parse();
+    if (Object.keys(options).length > 1) {
+      return "More than two options cannot be used";
+    }
     if (options.list) {
       return await this.#listMemos();
     } else if (options.read) {

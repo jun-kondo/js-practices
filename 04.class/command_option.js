@@ -13,9 +13,6 @@ export class CommandOption {
   }
 
   parse() {
-    if (Object.keys(this.#options).length > 1) {
-      throw new Error("Error: More than two options cannot be used");
-    }
     return this.#options;
   }
 }
