@@ -20,7 +20,11 @@ export class MemoApp {
       const result = await this.#run();
       console.log(result);
     } catch (e) {
-      console.error(e.message);
+      if (e && e.code === "SQLITE_ERROR") {
+        console.error(e.message);
+      } else {
+        throw e;
+      }
     } finally {
       await this.#memoStorage.closeDb();
     }
@@ -41,15 +45,11 @@ export class MemoApp {
   }
 
   async #listMemos() {
-    try {
-      const rows = await this.#memoStorage.getAllMemos();
-      if (rows.length === 0) {
-        return "There are no registered memos.";
-      } else {
-        return rows.map((row) => row.title).join("\n");
-      }
-    } catch (e) {
-      throw new Error(`Error listing memos: ${e.message}`);
+    const rows = await this.#memoStorage.getAllMemos();
+    if (rows.length === 0) {
+      return "There are no registered memos.";
+    } else {
+      return rows.map((row) => row.title).join("\n");
     }
   }
 
@@ -59,11 +59,7 @@ export class MemoApp {
     const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
       const memoId = selectedChoice.value;
-      try {
-        return await this.#memoStorage.getMemoContent(memoId);
-      } catch (e) {
-        throw new Error(`Error reading memo: ${e.message}`);
-      }
+      return await this.#memoStorage.getMemoContent(memoId);
     }
   }
 
@@ -73,30 +69,22 @@ export class MemoApp {
     const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
       const memoId = selectedChoice.value;
-      try {
-        return await this.#memoStorage.deleteMemo(memoId);
-      } catch (e) {
-        throw new Error(`Error deleting memo: ${e.message}`);
-      }
+      return await this.#memoStorage.deleteMemo(memoId);
     }
   }
 
   async #getMemoChoices() {
-    try {
-      const rows = await this.#memoStorage.getAllMemos();
-      return rows.map((row) => ({
-        name: row.title,
-        value: row.id,
-      }));
-    } catch (e) {
-      throw new Error(`Error getting memo choices: ${e.message}`);
-    }
+    const rows = await this.#memoStorage.getAllMemos();
+    return rows.map((row) => ({
+      name: row.title,
+      value: row.id,
+    }));
   }
 
   async #selectMemo(choices, message) {
     if (choices.length === 0) {
       console.log("There are no registered memos.");
-      return;
+      return; // undefined
     }
     const prompt = new Select({
       type: "select",
@@ -118,11 +106,7 @@ export class MemoApp {
   }
 
   async #createMemo(memo) {
-    try {
-      return await this.#memoStorage.insertMemo(memo);
-    } catch (e) {
-      throw new Error(`Error registering new memo: ${e.message}`);
-    }
+    return await this.#memoStorage.insertMemo(memo);
   }
 }
 
