@@ -32,21 +32,8 @@ export class MemoCrud {
 
   async readMemo() {
     const choices = await this.#getMemoChoices();
-    if (choices.length === 0) {
-      console.log("There are no registered memos.");
-      return;
-    }
-    const prompt = new Select({
-      type: "select",
-      name: "title",
-      message: "Choose a memo you want to see:",
-      choices: choices,
-    });
-    const answer = await prompt.run();
-    const selectedChoice = prompt.choices.find(
-      (choice) => choice.name === answer,
-    );
-
+    const message = "Choose a memo you want to read:";
+    const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
@@ -60,21 +47,8 @@ export class MemoCrud {
 
   async deleteMemo() {
     const choices = await this.#getMemoChoices();
-    if (choices.length === 0) {
-      console.log("There are no registered memos.");
-      return;
-    }
-    const prompt = new Select({
-      type: "select",
-      name: "title",
-      message: "Choose a memo you want to delete:",
-      choices: choices,
-    });
-    const answer = await prompt.run();
-    const selectedChoice = prompt.choices.find(
-      (choice) => choice.name === answer,
-    );
-
+    const message = "Choose a memo you want to delete:";
+    const selectedChoice = await this.#selectMemo(choices, message);
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
@@ -97,5 +71,20 @@ export class MemoCrud {
       console.error("Error getting memo choices: ", error);
       return [];
     }
+  }
+
+  async #selectMemo(choices, message) {
+    if (choices.length === 0) {
+      console.log("There are no registered memos.");
+      return;
+    }
+    const prompt = new Select({
+      type: "select",
+      name: "title",
+      message: message,
+      choices: choices,
+    });
+    const answer = await prompt.run();
+    return prompt.choices.find((choice) => choice.name === answer);
   }
 }
