@@ -40,23 +40,6 @@ export class MemoApp {
     }
   }
 
-  #handleInput() {
-    return new Promise((resolve) => {
-      process.stdin.setEncoding("utf8");
-      let text = "";
-      process.stdin.on("data", (chunk) => (text += chunk));
-      process.stdin.on("end", () => resolve(text));
-    });
-  }
-
-  async #createMemo(memo) {
-    try {
-      return await this.#memoStorage.insertMemo(memo);
-    } catch (e) {
-      throw new Error(`Error registering new memo: ${e.message}`);
-    }
-  }
-
   async #listMemos() {
     try {
       const rows = await this.#memoStorage.getAllMemos();
@@ -123,6 +106,23 @@ export class MemoApp {
     });
     const answer = await prompt.run();
     return prompt.choices.find((choice) => choice.name === answer);
+  }
+
+  #handleInput() {
+    return new Promise((resolve) => {
+      process.stdin.setEncoding("utf8");
+      let text = "";
+      process.stdin.on("data", (chunk) => (text += chunk));
+      process.stdin.on("end", () => resolve(text));
+    });
+  }
+
+  async #createMemo(memo) {
+    try {
+      return await this.#memoStorage.insertMemo(memo);
+    } catch (e) {
+      throw new Error(`Error registering new memo: ${e.message}`);
+    }
   }
 }
 
