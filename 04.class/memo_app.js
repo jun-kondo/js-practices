@@ -62,11 +62,8 @@ export class MemoApp {
       return "There are no registered memos.";
     }
     const message = "Choose a memo you want to read:";
-    const selectedChoice = await this.#selectMemo(choices, message);
-    if (selectedChoice) {
-      const memoId = selectedChoice.value;
-      return await this.#memoStorage.getMemoContent(memoId);
-    }
+    const selectedMemoId = await this.#selectMemo(choices, message);
+    return await this.#memoStorage.getMemoContent(selectedMemoId);
   }
 
   async #deleteMemo() {
@@ -75,11 +72,8 @@ export class MemoApp {
       return "There are no registered memos.";
     }
     const message = "Choose a memo you want to delete:";
-    const selectedChoice = await this.#selectMemo(choices, message);
-    if (selectedChoice) {
-      const memoId = selectedChoice.value;
-      return await this.#memoStorage.deleteMemo(memoId);
-    }
+    const selectedMemoId = await this.#selectMemo(choices, message);
+    return await this.#memoStorage.deleteMemo(selectedMemoId);
   }
 
   async #getMemoChoices() {
@@ -93,12 +87,13 @@ export class MemoApp {
   async #selectMemo(choices, message) {
     const prompt = new Select({
       type: "select",
-      name: "title",
       message: message,
       choices: choices,
+      result() {
+        return this.focused.value;
+      },
     });
-    const answer = await prompt.run();
-    return prompt.choices.find((choice) => choice.name === answer);
+    return await prompt.run();
   }
 
   #handleInput() {
