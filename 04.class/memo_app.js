@@ -8,21 +8,21 @@ const { Select } = pkg;
 
 export class MemoApp {
   #commandOption;
-  #dbManager;
+  #memoStorage;
   // #memoCrud;
   constructor() {
     this.#commandOption = new CommandOption();
-    this.#dbManager = new MemoStorage("memo_app.db");
+    this.#memoStorage = new MemoStorage("memo_app.db");
   }
 
   async execute() {
     try {
-      await this.#dbManager.setUpTable();
+      await this.#memoStorage.setUpTable();
       await this.#run();
     } catch (e) {
       console.error(e.message);
     } finally {
-      await this.#dbManager.closeDb();
+      await this.#memoStorage.closeDb();
     }
   }
 
@@ -51,7 +51,7 @@ export class MemoApp {
 
   async #createMemo(memo) {
     try {
-      const result = await this.#dbManager.insertMemo(memo);
+      const result = await this.#memoStorage.insertMemo(memo);
       console.log(result);
     } catch (e) {
       throw new Error(`Error registering new memo: ${e.message}`);
@@ -60,7 +60,7 @@ export class MemoApp {
 
   async #listMemos() {
     try {
-      const rows = await this.#dbManager.getAllMemos();
+      const rows = await this.#memoStorage.getAllMemos();
       if (rows.length === 0) {
         console.log("There are no registered memos.");
       } else {
@@ -78,7 +78,7 @@ export class MemoApp {
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
-        const result = await this.#dbManager.getMemoContent(memoId);
+        const result = await this.#memoStorage.getMemoContent(memoId);
         console.log(result);
       } catch (e) {
         throw new Error(`Error reading memo: ${e.message}`);
@@ -93,7 +93,7 @@ export class MemoApp {
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
-        const result = await this.#dbManager.deleteMemo(memoId);
+        const result = await this.#memoStorage.deleteMemo(memoId);
         console.log(result);
       } catch (e) {
         throw new Error(`Error deleting memo: ${e.message}`);
@@ -103,7 +103,7 @@ export class MemoApp {
 
   async #getMemoChoices() {
     try {
-      const rows = await this.#dbManager.getAllMemos();
+      const rows = await this.#memoStorage.getAllMemos();
       return rows.map((row) => ({
         name: row.title,
         value: row.id,
