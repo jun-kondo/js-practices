@@ -18,7 +18,8 @@ export class MemoApp {
   async execute() {
     try {
       await this.#memoStorage.setUpTable();
-      await this.#run();
+      const result = await this.#run();
+      console.log(result);
     } catch (e) {
       console.error(e.message);
     } finally {
@@ -29,14 +30,14 @@ export class MemoApp {
   async #run() {
     const options = this.#commandOption.parse();
     if (options.list) {
-      await this.#listMemos();
+      return await this.#listMemos();
     } else if (options.read) {
-      await this.#readMemo();
+      return await this.#readMemo();
     } else if (options.delete) {
-      await this.#deleteMemo();
+      return await this.#deleteMemo();
     } else {
       const inputText = await this.#handleInput();
-      await this.#createMemo(new Memo(inputText));
+      return await this.#createMemo(new Memo(inputText));
     }
   }
 
@@ -51,8 +52,7 @@ export class MemoApp {
 
   async #createMemo(memo) {
     try {
-      const result = await this.#memoStorage.insertMemo(memo);
-      console.log(result);
+      return await this.#memoStorage.insertMemo(memo);
     } catch (e) {
       throw new Error(`Error registering new memo: ${e.message}`);
     }
@@ -62,9 +62,9 @@ export class MemoApp {
     try {
       const rows = await this.#memoStorage.getAllMemos();
       if (rows.length === 0) {
-        console.log("There are no registered memos.");
+        return "There are no registered memos.";
       } else {
-        rows.forEach((row) => console.log(row.title));
+        return rows.map((row) => row.title).join("\n");
       }
     } catch (e) {
       throw new Error(`Error listing memos: ${e.message}`);
@@ -78,8 +78,7 @@ export class MemoApp {
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
-        const result = await this.#memoStorage.getMemoContent(memoId);
-        console.log(result);
+        return await this.#memoStorage.getMemoContent(memoId);
       } catch (e) {
         throw new Error(`Error reading memo: ${e.message}`);
       }
@@ -93,8 +92,7 @@ export class MemoApp {
     if (selectedChoice) {
       const memoId = selectedChoice.value;
       try {
-        const result = await this.#memoStorage.deleteMemo(memoId);
-        console.log(result);
+        return await this.#memoStorage.deleteMemo(memoId);
       } catch (e) {
         throw new Error(`Error deleting memo: ${e.message}`);
       }
