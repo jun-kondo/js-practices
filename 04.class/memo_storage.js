@@ -50,6 +50,7 @@ export class MemoStorage {
       );
     });
   }
+
   insertMemo(memo) {
     return new Promise((resolve, reject) => {
       this.#db.run(
