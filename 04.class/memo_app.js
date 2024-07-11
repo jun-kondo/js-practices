@@ -18,8 +18,8 @@ export class MemoApp {
     try {
       await this.#dbManager.setUpTable();
       await this.#run();
-    } catch (error) {
-      console.error("Error: ", error);
+    } catch (e) {
+      console.error(e.message);
     } finally {
       await this.#dbManager.closeDb();
     }

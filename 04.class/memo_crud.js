@@ -12,8 +12,8 @@ export class MemoCrud {
     try {
       const result = await this.#dbManager.insertMemo(memo);
       console.log(result);
-    } catch (error) {
-      console.error("Error registering new memo: ", error);
+    } catch (e) {
+      throw new Error(`Error registering new memo: ${e.message}`);
     }
   }
 
@@ -25,8 +25,8 @@ export class MemoCrud {
       } else {
         rows.forEach((row) => console.log(row.title));
       }
-    } catch (error) {
-      console.error("Error listing memos: ", error);
+    } catch (e) {
+      throw new Error(`Error listing memos: ${e.message}`);
     }
   }
 
@@ -39,8 +39,8 @@ export class MemoCrud {
       try {
         const result = await this.#dbManager.getMemoContent(memoId);
         console.log(result);
-      } catch (error) {
-        console.error("Error reading memo: ", error);
+      } catch (e) {
+        throw new Error(`Error reading memo: ${e.message}`);
       }
     }
   }
@@ -54,8 +54,8 @@ export class MemoCrud {
       try {
         const result = await this.#dbManager.deleteMemo(memoId);
         console.log(result);
-      } catch (error) {
-        console.error("Error deleting memo: ", error);
+      } catch (e) {
+        throw new Error(`Error deleting memo: ${e.message}`);
       }
     }
   }
@@ -67,9 +67,8 @@ export class MemoCrud {
         name: row.title,
         value: row.id,
       }));
-    } catch (error) {
-      console.error("Error getting memo choices: ", error);
-      return [];
+    } catch (e) {
+      throw new Error(`Error getting memo choices: ${e.message}`);
     }
   }
 
