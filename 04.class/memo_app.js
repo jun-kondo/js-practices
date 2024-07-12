@@ -20,7 +20,7 @@ export class MemoApp {
       const result = await this.#run();
       console.log(result);
     } catch (e) {
-      if (e && e.code === "SQLITE_ERROR") {
+      if (e instanceof Error && e.message.includes("SQLITE_ERROR")) {
         console.error(e.message);
       } else {
         throw e;
